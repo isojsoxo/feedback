@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Feedback Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .feedback-form {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border: 2px solid #e3e3e3;
+            position: relative;
+        }
+
+        .feedback-form h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .feedback-form label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .feedback-form input[type="text"],
+        .feedback-form input[type="email"],
+        .feedback-form input[type="tel"],
+        .feedback-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feedback-form input[type="text"]:focus,
+        .feedback-form input[type="email"]:focus,
+        .feedback-form input[type="tel"]:focus,
+        .feedback-form textarea:focus {
+            border-color: #7e57c2;
+            box-shadow: 0 0 10px rgba(126, 87, 194, 0.3);
+        }
+
+        .feedback-form .rating {
+            margin-bottom: 20px;
+        }
+
+        .feedback-form .rating label {
+            font-size: 16px;
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .feedback-form .rating input[type="radio"] {
+            display: none;
+        }
+
+        .feedback-form .rating label:hover,
+        .feedback-form .rating input[type="radio"]:checked + label {
+            color: #7e57c2;
+        }
+
+        .feedback-form button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #7e57c2;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feedback-form button:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 10%, transparent 10.01%);
+            background-size: 10% 10%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .feedback-form button:hover:before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .feedback-form button:hover {
+            background-color: #5e35b1;
+            box-shadow: 0 10px 20px rgba(94, 53, 177, 0.4);
+        }
+
+        .step {
+            display: none;
+            transition: all 0.5s ease;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feedback-form .additional-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="feedback-form">
+        <h2>Interactive Feedback Form</h2>
+        <form id="feedbackForm" action="https://formspree.io/f/xkgngjly" method="POST">
+            
+            <!-- Step 1: Email -->
+            <div class="step active" id="step1">
+                <label for="email">Email (Required):</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email..." required>
+                <button type="button" onclick="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 2: Phone Number -->
+            <div class="step" id="step2">
+                <label for="phone">Phone Number (Required):</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number..." required>
+                <button type="button" onclick="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 3: Rate Overall Experience -->
+            <div class="step" id="step3">
+                <label for="rating">Rate your overall experience:</label>
+                <div class="rating">
+                    <input type="radio" id="rate1" name="rating" value="1" required>
+                    <label for="rate1">1</label>
+                    <input type="radio" id="rate2" name="rating" value="2" required>
+                    <label for="rate2">2</label>
+                    <input type="radio" id="rate3" name="rating" value="3" required>
+                    <label for="rate3">3</label>
+                    <input type="radio" id="rate4" name="rating" value="4" required>
+                    <label for="rate4">4</label>
+                    <input type="radio" id="rate5" name="rating" value="5" required>
+                    <label for="rate5">5</label>
+                </div>
+                <button type="button" onclick="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 4: Platform Features Satisfaction -->
+            <div class="step" id="step4">
+                <label for="features">Are you satisfied with the platform's features?</label>
+                <div>
+                    <input type="radio" id="featuresYes" name="features" value="yes" required>
+                    <label for="featuresYes">Yes</label>
+                    <input type="radio" id="featuresNo" name="features" value="no" required>
+                    <label for="featuresNo">No</label>
+                </div>
+                <button type="button" onclick="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 5: Usability -->
+            <div class="step" id="step5">
+                <label for="usability">How easy is it to navigate the platform?</label>
+                <div class="rating">
+                    <input type="radio" id="usability1" name="usability" value="1" required>
+                    <label for="usability1">1</label>
+                    <input type="radio" id="usability2" name="usability" value="2" required>
+                    <label for="usability2">2</label>
+                    <input type="radio" id="usability3" name="usability" value="3" required>
+                    <label for="usability3">3</label>
+                    <input type="radio" id="usability4" name="usability" value="4" required>
+                    <label for="usability4">4</label>
+                    <input type="radio" id="usability5" name="usability" value="5" required>
+                    <label for="usability5">5</label>
+                </div>
+                <button type="button" onclick="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 6: Suggestions -->
+            <div class="step" id="step6">
+                <label for="suggestions">Suggestions for improvements:</label>
+                <textarea id="suggestions" name="suggestions" rows="4" placeholder="Share your suggestions here..." required></textarea>
+                <button type="submit">Submit Your Feedback</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.step');
+
+        function nextStep() {
+            // Get the current step inputs
+            const currentInputs = steps[currentStep].querySelectorAll('input, textarea');
+            let allFilled = true;
+
+            // Check if all inputs are filled
+            currentInputs.forEach(input => {
+                if (!input.value && input.required) {
+                    allFilled = false;
+                    input.style.borderColor = 'red'; // Highlight the unfilled input
+                } else {
+                    input.style.borderColor = '#ddd'; // Reset the border color
+                }
+            });
+
+            // Proceed to the next step only if all inputs are filled
+            if (allFilled) {
+                steps[currentStep].classList.remove('active');
+                currentStep++;
+                if (currentStep < steps.length) {
+                    steps[currentStep].classList.add('active');
+                }
+            } else {
+                alert('Please fill all required fields.'); // Alert the user to fill all fields
+            }
+        }
+    </script>
+
+</body>
+</html>
